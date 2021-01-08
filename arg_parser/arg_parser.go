@@ -103,16 +103,16 @@ func ParseCobraFlag(cmd *cobra.Command, args interface{}) {
 		switch f.Type.Kind() {
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 			cmdval, _ := cmd.Flags().GetInt64(name)
-			val.SetInt(cmdval)
+			fv.SetInt(cmdval)
 		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 			cmdval, _ := cmd.Flags().GetUint64(name)
-			val.SetUint(cmdval)
+			fv.SetUint(cmdval)
 		case reflect.Bool:
 			cmdval, _ := cmd.Flags().GetBool(name)
-			val.SetBool(cmdval)
+			fv.SetBool(cmdval)
 		case reflect.String:
 			cmdval, _ := cmd.Flags().GetString(name)
-			val.SetString(cmdval)
+			fv.SetString(cmdval)
 		}
 	}
 }
