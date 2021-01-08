@@ -16,6 +16,9 @@ func (t *tag) prepare() {
 	if len(t.temp) != 0 {
 		return
 	}
+	if t.temp == nil {
+		t.temp = map[string]string{}
+	}
 	items := strings.Split(t.data, ";")
 	for _, v := range items {
 		kv := strings.SplitN(v, ":", 2)
