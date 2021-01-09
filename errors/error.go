@@ -1,6 +1,7 @@
 package errors
 
 import (
+	"bytes"
 	"fmt"
 	"runtime"
 	"strings"
@@ -16,6 +17,7 @@ type (
 		Line() int
 		Pkg() string
 		ErrorDetail() string
+		RecursiveError() string
 	}
 	err struct {
 		err     error
@@ -99,4 +101,24 @@ func (self err) Line() int {
 
 func (self err) ErrorDetail() string {
 	return fmt.Sprintf("Pkg:%s Func:%s Line:%d Code:%s  Message:%s", self.Pkg(), self.FuncName(), self.Line(), self.Code(), self.Message())
+}
+
+func (self err) RecursiveError() string {
+	var buf bytes.Buffer
+	buf.WriteString(self.ErrorDetail() + "\n ")
+	if self.err == nil {
+		return buf.String()
+	}
+	switch val := self.err.(type) {
+	case err:
+		buf.WriteString(val.RecursiveError() + "\n ")
+	case *err:
+		if val == nil {
+			return buf.String()
+		}
+		buf.WriteString(val.RecursiveError() + "\n ")
+	case error:
+		buf.WriteString(val.Error() + "\n")
+	}
+	return buf.String()
 }

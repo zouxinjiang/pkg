@@ -6,5 +6,5 @@ import (
 
 func TestErr(t *testing.T) {
 	err := New("eee", "msg")
-	t.Logf("%+v", err.ErrorDetail())
+	t.Logf("%+v", err.RecursiveError())
 }
